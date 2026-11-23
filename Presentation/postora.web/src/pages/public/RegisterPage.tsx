@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserPlus, faCircleExclamation } from '@fortawesome/free-solid-svg-icons'
-import { labelClass, inputClass, submitClass } from '../constants/formClasses'
-import { useAuth } from '../hooks/useAuth'
+import { labelClass, inputClass, submitClass } from '../../constants/formClasses'
+import { useAuth } from '../../hooks/useAuth'
 
 function RegisterPage() {
   const { t } = useTranslation()

@@ -15,8 +15,8 @@ import {
   faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
-import { useAuth } from '../hooks/useAuth'
-import { getInitials } from '../utils/getInitials'
+import { useAuth } from '../../hooks/useAuth'
+import { getInitials } from '../../utils/getInitials'
 
 type SidebarProps = {
   isOpen: boolean

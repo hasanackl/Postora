@@ -3,24 +3,19 @@ import type { ReactNode } from 'react'
 import { AuthContext } from './AuthContext'
 import { loginUser, registerUser } from '../api/auth'
 import type { User } from '../types/user'
-
-const STORAGE_KEY = 'user'
+import { readStorage, writeStorage, removeStorage } from '../lib/storage'
+import { STORAGE_KEYS } from '../constants/storageKeys'
 
 type AuthProviderProps = {
   children: ReactNode
 }
 
-function getSavedUser(): User | null {
-  const saved = localStorage.getItem(STORAGE_KEY)
-  return saved ? (JSON.parse(saved) as User) : null
-}
-
 function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(getSavedUser)
+  const [user, setUser] = useState<User | null>(() => readStorage<User | null>(STORAGE_KEYS.user, null))
 
   function saveUser(newUser: User) {
     setUser(newUser)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(newUser))
+    writeStorage(STORAGE_KEYS.user, newUser)
   }
 
   async function login(email: string, password: string) {
@@ -47,7 +42,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   function logout() {
     setUser(null)
-    localStorage.removeItem(STORAGE_KEY)
+    removeStorage(STORAGE_KEYS.user)
   }
 
   return (

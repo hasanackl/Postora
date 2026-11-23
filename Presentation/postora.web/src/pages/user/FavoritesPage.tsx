@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
-import type { Listing } from '../types/listing'
-import { getListingsByIds } from '../api/listings'
-import { useFavorites } from '../hooks/useFavorites'
-import ListingCard from '../components/listing/ListingCard'
+import type { Listing } from '../../types/listing'
+import { getListingsByIds } from '../../api/listings'
+import { useFavorites } from '../../hooks/useFavorites'
+import ListingCard from '../../components/listing/ListingCard'
 
 function FavoritesPage() {
   const { t } = useTranslation()
