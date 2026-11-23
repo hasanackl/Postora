@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+    --font-sans: "DM Sans", system-ui, sans-serif;
+    --font-heading: "Bricolage Grotesque", system-ui, sans-serif;
+    --color-primary: #0e4d3c;
+    --color-primary-dark: #0a3328;
+    --color-accent: #c2410c;
+    --color-page: #f4f6f3;
+    --color-line: #e3e8e4;
+    --color-ink: #14201b;
+    --color-muted: #5b6a63;
+    --color-mint: #e3f0ea;
+    --color-sand: #f6ebdd;
+    --color-peach: #f6c89f;
+    --color-sage: #c9ddd5;
+}
+
+body {
+    @apply bg-page font-sans text-ink;
+}
+
+@layer base {
+    button:not(:disabled) {
+        cursor: pointer;
+    }
+}

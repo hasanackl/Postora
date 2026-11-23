@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/Core/">
+    <Project Path="Core/Postora.Application/Postora.Application.csproj" />
+    <Project Path="Core/Postora.Domain/Postora.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="Infrastructure/Postora.Infrastructure/Postora.Infrastructure.csproj" />
+    <Project Path="Infrastructure/Postora.Persistence/Postora.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/Presentation/">
+    <Project Path="Presentation/Postora.API/Postora.API.csproj" />
+    <Project Path="Presentation/postora.web/postora.web.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+  </Folder>
+</Solution>
