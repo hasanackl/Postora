@@ -1,19 +1,13 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import type { Category } from '../../types/category'
-import { getCategories } from '../../api/categories'
+import { useAppData } from '../../hooks/useAppData'
 import { CATEGORY_ICONS, DEFAULT_CATEGORY_ICON } from '../../constants/categoryIcons'
 
 function CategoriesSection() {
   const { t, i18n } = useTranslation()
-  const [categories, setCategories] = useState<Category[]>([])
-
-  useEffect(() => {
-    getCategories().then((data) => setCategories(data))
-  }, [])
-
+  const { data } = useAppData()
+  const categories = data.categories
   const isTr = i18n.language === 'tr'
 
   return (

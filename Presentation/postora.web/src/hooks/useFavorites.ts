@@ -1,12 +1,27 @@
-import { useContext } from 'react'
-import { FavoritesContext } from '../context/FavoritesContext'
+import { useAppData } from './useAppData'
+import { useAuth } from './useAuth'
 
 export function useFavorites() {
-  const context = useContext(FavoritesContext)
+  const { data, dispatch } = useAppData()
+  const { user } = useAuth()
 
-  if (!context) {
-    throw new Error('useFavorites, FavoritesProvider içinde kullanılmalı')
+  const favoriteIds = user
+    ? data.favorites.filter((item) => item.userId === user.id).map((item) => item.listingId)
+    : []
+
+  function isFavorite(listingId: number) {
+    return favoriteIds.includes(listingId)
   }
 
-  return context
+  function toggleFavorite(listingId: number) {
+    if (!user) return
+
+    dispatch({
+      type: isFavorite(listingId) ? 'favorite/removed' : 'favorite/added',
+      userId: user.id,
+      listingId,
+    })
+  }
+
+  return { favoriteIds, isFavorite, toggleFavorite }
 }

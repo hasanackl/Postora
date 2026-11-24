@@ -1,21 +1,17 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
-import type { ListingView } from '../../types/listing'
-import { getListingsByIds } from '../../api/listings'
+import { useAppData } from '../../hooks/useAppData'
 import { useFavorites } from '../../hooks/useFavorites'
+import { selectListingsByIds } from '../../store/selectors'
 import ListingCard from '../../components/listing/ListingCard'
 
 function FavoritesPage() {
   const { t } = useTranslation()
+  const { data } = useAppData()
   const { favoriteIds } = useFavorites()
-  const [listings, setListings] = useState<ListingView[]>([])
-
-  useEffect(() => {
-    getListingsByIds(favoriteIds).then(setListings)
-  }, [favoriteIds])
+  const listings = selectListingsByIds(data, favoriteIds)
 
   return (
     <section className="max-w-[1240px] mx-auto px-4 sm:px-6 pt-7 pb-14 flex flex-col gap-4">

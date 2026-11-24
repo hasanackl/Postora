@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCamera, faCartShopping, faShieldHalved } from '@fortawesome/free-solid-svg-icons'
-import type { ListingDetail } from '../../types/listing'
-import { getListingById } from '../../api/listings'
+import { useAppData } from '../../hooks/useAppData'
+import { selectListingDetail } from '../../store/selectors'
 import { formatPrice } from '../../utils/formatPrice'
 import { formatDate } from '../../utils/date'
 import { getInitials } from '../../utils/getInitials'
@@ -17,23 +16,8 @@ const rowClass = 'flex justify-between gap-3 py-2.5 border-b border-line last:bo
 function ListingDetailPage() {
   const { id } = useParams()
   const { t, i18n } = useTranslation()
-  const [listing, setListing] = useState<ListingDetail | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    getListingById(Number(id)).then((data) => {
-      setListing(data)
-      setIsLoading(false)
-    })
-  }, [id])
-
-  if (isLoading) {
-    return (
-      <p className="max-w-[1240px] mx-auto px-4 sm:px-6 py-16 text-center text-muted">
-        {t('listingDetail.loading')}
-      </p>
-    )
-  }
+  const { data } = useAppData()
+  const listing = selectListingDetail(data, Number(id))
 
   if (!listing) {
     return <NotFoundPage />

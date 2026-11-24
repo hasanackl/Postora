@@ -1,16 +1,12 @@
-import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { ListingView } from '../../types/listing'
-import { getListings } from '../../api/listings'
+import { useAppData } from '../../hooks/useAppData'
+import { selectApprovedListings } from '../../store/selectors'
 import ListingCard from '../listing/ListingCard'
 
 function LatestListingsSection() {
   const { t } = useTranslation()
-  const [listings, setListings] = useState<ListingView[]>([])
-
-  useEffect(() => {
-    getListings().then((data) => setListings(data))
-  }, [])
+  const { data } = useAppData()
+  const listings = selectApprovedListings(data)
 
   return (
     <section className="max-w-[1240px] mx-auto px-4 sm:px-6 pt-7 pb-14 flex flex-col gap-4">
