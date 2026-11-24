@@ -1,28 +1,41 @@
-import type { Listing, ListingDetail } from '../types/listing'
+import type { Listing, ListingDetail, ListingView } from '../types/listing'
 import { listings } from '../mocks/listings'
-import type { MockListing } from '../mocks/listings'
 import { users } from '../mocks/users'
+import { categories } from '../mocks/categories'
+import { cities } from '../mocks/cities'
 
 function isApproved(listing: Listing) {
   return listing.status === 'approved'
 }
 
-function toDetail(listing: MockListing): ListingDetail {
-  const owner = users.find((user) => user.id === listing.ownerId)
-  const ownerListings = listings.filter(
-    (item) => item.ownerId === listing.ownerId && isApproved(item),
-  )
+function toView(listing: Listing): ListingView {
+  const category = categories.find((item) => item.id === listing.categoryId)
+  const city = cities.find((item) => item.id === listing.cityId)
 
   return {
     ...listing,
-    sellerName: owner?.fullName ?? '',
-    sellerMemberSince: owner?.memberSince ?? 0,
-    sellerListingCount: ownerListings.length,
+    categoryNameTr: category?.nameTr ?? '',
+    categoryNameEn: category?.nameEn ?? '',
+    cityName: city?.name ?? '',
   }
 }
 
-export function getListings(): Promise<Listing[]> {
-  return Promise.resolve(listings.filter(isApproved))
+function toDetail(listing: Listing): ListingDetail {
+  const owner = users.find((user) => user.id === listing.ownerId)
+  const ownerListingCount = listings.filter(
+    (item) => item.ownerId === listing.ownerId && isApproved(item),
+  ).length
+
+  return {
+    ...toView(listing),
+    sellerName: owner?.fullName ?? '',
+    sellerMemberSince: owner ? new Date(owner.createdDate).getFullYear() : 0,
+    sellerListingCount: ownerListingCount,
+  }
+}
+
+export function getListings(): Promise<ListingView[]> {
+  return Promise.resolve(listings.filter(isApproved).map(toView))
 }
 
 export function getListingById(id: number): Promise<ListingDetail | null> {
@@ -30,7 +43,7 @@ export function getListingById(id: number): Promise<ListingDetail | null> {
   return Promise.resolve(listing ? toDetail(listing) : null)
 }
 
-export function getListingsByIds(ids: number[]): Promise<Listing[]> {
+export function getListingsByIds(ids: number[]): Promise<ListingView[]> {
   const result = listings.filter((item) => ids.includes(item.id) && isApproved(item))
-  return Promise.resolve(result)
+  return Promise.resolve(result.map(toView))
 }

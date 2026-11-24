@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
-import type { Listing } from '../../types/listing'
+import type { ListingView } from '../../types/listing'
 import { getListingsByIds } from '../../api/listings'
 import { useFavorites } from '../../hooks/useFavorites'
 import ListingCard from '../../components/listing/ListingCard'
@@ -11,7 +11,7 @@ import ListingCard from '../../components/listing/ListingCard'
 function FavoritesPage() {
   const { t } = useTranslation()
   const { favoriteIds } = useFavorites()
-  const [listings, setListings] = useState<Listing[]>([])
+  const [listings, setListings] = useState<ListingView[]>([])
 
   useEffect(() => {
     getListingsByIds(favoriteIds).then(setListings)

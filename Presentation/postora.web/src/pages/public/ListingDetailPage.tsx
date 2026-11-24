@@ -41,6 +41,7 @@ function ListingDetailPage() {
 
   const isTr = i18n.language === 'tr'
   const categoryName = isTr ? listing.categoryNameTr : listing.categoryNameEn
+  const coverPhoto = listing.photos[0]
 
   return (
     <div className="max-w-[1240px] mx-auto px-4 sm:px-6 pt-5 pb-14 flex flex-col gap-5">
@@ -58,15 +59,17 @@ function ListingDetailPage() {
         <div className="flex-[999_1_560px] min-w-0 flex flex-col gap-5">
           <div className="p-3 rounded-[18px] border border-line bg-white">
             <div className="relative h-72 sm:h-[440px] flex items-center justify-center overflow-hidden rounded-[14px] bg-mint text-primary text-7xl">
-              {listing.imageUrl ? (
-                <img src={listing.imageUrl} alt={listing.title} className="w-full h-full object-cover" />
+              {coverPhoto ? (
+                <img src={coverPhoto} alt={listing.title} className="w-full h-full object-cover" />
               ) : (
                 <FontAwesomeIcon icon={faCamera} />
               )}
-              <span className="absolute right-3.5 bottom-3.5 px-2.5 py-1 flex items-center gap-1.5 rounded-lg bg-ink/75 text-white text-[13px]">
-                <FontAwesomeIcon icon={faCamera} />
-                {listing.photoCount}
-              </span>
+              {listing.photos.length > 0 && (
+                <span className="absolute right-3.5 bottom-3.5 px-2.5 py-1 flex items-center gap-1.5 rounded-lg bg-ink/75 text-white text-[13px]">
+                  <FontAwesomeIcon icon={faCamera} />
+                  {listing.photos.length}
+                </span>
+              )}
             </div>
           </div>
 
@@ -110,7 +113,7 @@ function ListingDetailPage() {
               </div>
               <div className={rowClass}>
                 <dt className="text-muted">{t('listingDetail.location')}</dt>
-                <dd>{listing.city}</dd>
+                <dd>{listing.cityName}</dd>
               </div>
             </dl>
 

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { Listing } from '../../types/listing'
+import type { ListingView } from '../../types/listing'
 import { getListings } from '../../api/listings'
 import ListingCard from '../listing/ListingCard'
 
 function LatestListingsSection() {
   const { t } = useTranslation()
-  const [listings, setListings] = useState<Listing[]>([])
+  const [listings, setListings] = useState<ListingView[]>([])
 
   useEffect(() => {
     getListings().then((data) => setListings(data))

@@ -14,4 +14,7 @@
       <Deploy />
     </Project>
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
 </Solution>

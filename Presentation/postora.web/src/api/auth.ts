@@ -1,19 +1,24 @@
 import type { User } from '../types/user'
 import { users } from '../mocks/users'
 
+type StoredUser = User & { password: string }
+
+function toUser(item: StoredUser): User {
+  return {
+    id: item.id,
+    fullName: item.fullName,
+    email: item.email,
+    phone: item.phone,
+    cityId: item.cityId,
+    role: item.role,
+    isActive: item.isActive,
+    createdDate: item.createdDate,
+  }
+}
+
 export function loginUser(email: string, password: string): Promise<User | null> {
   const found = users.find((item) => item.email === email && item.password === password)
-
-  if (!found) {
-    return Promise.resolve(null)
-  }
-
-  return Promise.resolve({
-    id: found.id,
-    fullName: found.fullName,
-    email: found.email,
-    role: found.role,
-  })
+  return Promise.resolve(found ? toUser(found) : null)
 }
 
 export function registerUser(fullName: string, email: string, password: string): Promise<User | null> {
@@ -23,21 +28,18 @@ export function registerUser(fullName: string, email: string, password: string):
     return Promise.resolve(null)
   }
 
-  const newUser = {
+  const newUser: StoredUser = {
     id: users.length + 1,
     fullName,
     email,
+    phone: '',
+    cityId: 0,
+    role: 'user',
+    isActive: true,
+    createdDate: new Date().toISOString(),
     password,
-    role: 'user' as const,
-    memberSince: new Date().getFullYear(),
   }
 
   users.push(newUser)
-
-  return Promise.resolve({
-    id: newUser.id,
-    fullName: newUser.fullName,
-    email: newUser.email,
-    role: newUser.role,
-  })
+  return Promise.resolve(toUser(newUser))
 }

@@ -1,24 +1,27 @@
-export type ListingStatus = 'pending' | 'approved' | 'rejected'
+export type ListingStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'archived'
 
 export type Listing = {
   id: number
   title: string
+  description: string
   price: number
   categoryId: number
-  categoryNameTr: string
-  categoryNameEn: string
   cityId: number
-  city: string
-  photoCount: number
-  imageUrl: string | null
-  createdDate: string
   ownerId: number
+  photos: string[]
   status: ListingStatus
   rejectReason?: string
+  createdDate: string
+  updatedDate: string
 }
 
-export type ListingDetail = Listing & {
-  description: string
+export type ListingView = Listing & {
+  categoryNameTr: string
+  categoryNameEn: string
+  cityName: string
+}
+
+export type ListingDetail = ListingView & {
   sellerName: string
   sellerMemberSince: number
   sellerListingCount: number
