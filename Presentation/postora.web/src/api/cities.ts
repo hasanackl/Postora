@@ -1,6 +1,6 @@
 import type { City } from '../types/city'
-import { cities } from '../mocks/cities'
+import { seedData } from '../data/seed'
 
 export function getCities(): Promise<City[]> {
-  return Promise.resolve(cities)
+  return Promise.resolve(seedData.cities)
 }

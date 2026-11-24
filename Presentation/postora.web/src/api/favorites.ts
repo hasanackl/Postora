@@ -1,4 +1,6 @@
-import { favorites } from '../mocks/favorites'
+import { seedData } from '../data/seed'
+
+const { favorites } = seedData
 
 export function getFavoriteIds(userId: number): Promise<number[]> {
   const ids = favorites

@@ -1,7 +1,7 @@
-import type { User } from '../types/user'
-import { users } from '../mocks/users'
+import type { StoredUser, User } from '../types/user'
+import { seedData } from '../data/seed'
 
-type StoredUser = User & { password: string }
+const { users } = seedData
 
 function toUser(item: StoredUser): User {
   return {

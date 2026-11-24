@@ -1,8 +1,7 @@
 import type { Listing, ListingDetail, ListingView } from '../types/listing'
-import { listings } from '../mocks/listings'
-import { users } from '../mocks/users'
-import { categories } from '../mocks/categories'
-import { cities } from '../mocks/cities'
+import { seedData } from '../data/seed'
+
+const { listings, users, categories, cities } = seedData
 
 function isApproved(listing: Listing) {
   return listing.status === 'approved'

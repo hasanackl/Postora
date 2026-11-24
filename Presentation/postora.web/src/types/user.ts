@@ -10,3 +10,7 @@ export type User = {
   isActive: boolean
   createdDate: string
 }
+
+export type StoredUser = User & {
+  password: string
+}
