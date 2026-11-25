@@ -9,6 +9,8 @@ import { formatDate } from '../../utils/date'
 import { getInitials } from '../../utils/getInitials'
 import NotFoundPage from './NotFoundPage'
 import FavoriteButton from '../../components/listing/FavoriteButton'
+import Badge from '../../components/common/Badge'
+import Button from '../../components/common/Button'
 
 const boxClass = 'p-[22px] rounded-[18px] border border-line bg-white'
 const rowClass = 'flex justify-between gap-3 py-2.5 border-b border-line last:border-b-0 text-sm'
@@ -66,12 +68,10 @@ function ListingDetailPage() {
         <aside className="flex-[1_1_340px] min-w-0 flex flex-col gap-4">
           <div className={`${boxClass} flex flex-col gap-3.5`}>
             <div className="flex flex-wrap gap-2">
-              <span className="px-2.5 py-1 rounded-full bg-mint text-primary-dark text-xs font-medium">
-                {t('listingDetail.published')}
-              </span>
-              <span className="px-2.5 py-1 rounded-full bg-sand text-[#8a2e08] text-xs font-medium">
-                {t('listingDetail.fromOwner')}
-              </span>
+                <div className="flex flex-wrap gap-2">
+                    <Badge tone="mint">{t('listingDetail.published')}</Badge>
+                    <Badge tone="sand">{t('listingDetail.fromOwner')}</Badge>
+                </div>
             </div>
 
             <h1 className="font-heading text-[28px] font-bold leading-[1.15] tracking-[-0.5px] text-balance">
@@ -101,10 +101,10 @@ function ListingDetailPage() {
               </div>
             </dl>
 
-            <button type="button" className="h-12 flex items-center justify-center gap-2 rounded-xl bg-accent text-white font-medium">
-              <FontAwesomeIcon icon={faCartShopping} />
-              {t('listingDetail.order')}
-            </button>
+            <Button variant="accent" size="lg">
+                 <FontAwesomeIcon icon={faCartShopping} />
+                 {t('listingDetail.order')}
+            </Button>
             <FavoriteButton listingId={listing.id} variant="full" />
           </div>
 

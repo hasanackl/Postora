@@ -153,43 +153,56 @@ Her adımda sırayla: kodu yaz, test et, "kontrol et" de, git commit at.
     - `AdminLayout`: ayrı yan menü
     - Route'lar bu layout'lara göre yeniden düzenlenir.
 
-### E. Kullanıcı paneli
-13. **Dashboard (`/dashboard`):** `StatCard` bileşenleri. İlan sayısı (duruma göre), favori, sipariş ve okunmamış bildirim sayıları.
-14. **İlan ver (`/my-listings/new`):**
+### E. Ziyaretçi ilan deneyimi (dokümandaki Sprint 3, adım 16–20)
+13. **Ana sayfa:** Hero'ya arama çubuğu eklenir, arama `/listings?q=...` adresini açar. "Öne çıkan 3 ilan" bölümü ve CTA (İlan ver) eklenir.
+14. **Katalog (`/listings`):** Sadece `approved` ilanlar gösterilir. Sonuç yoksa `EmptyState` görünür.
+15. **URL filtreleri:**
+    - Metin, kategori, şehir, min/maks fiyat. Filtrelerin tek kaynağı `useSearchParams`.
+    - `useMemo` ile filtrelenmiş liste, `useDeferredValue` ile metin araması.
+    - Filtre paneli `useState` ile geçici değer tutar.
+    - Ölçüt: Filtreli adres yeni sekmede açılınca aynı sonuçlar gelir.
+16. **Sıralama ve sayfalama:**
+    - Fiyat (artan/azalan) ve en yeni. Sayfa başına 9 kart, `page` parametresi.
+    - Önce filtrele, sonra sırala, en son `slice` ile dilimle.
+    - Filtre değişince `page=1` olur. Sayfa sayısından büyük `page` değeri geçerli aralığa çekilir.
+    - 9'dan fazla yayında ilan olsun diye seed'e ilan eklenir.
+17. **İlan detayı ve galeri:**
+    - Büyük fotoğraf ve küçük resim seçimi (`useState`).
+    - Benzer ilanlar (`useMemo`): aynı kategoriden ilanlar.
+    - Geçersiz id için açıklamalı 404 gösterilir. Onaylanmamış ilan herkese açılmaz.
+
+> Not: Eski planda katalog ve galeri en sondaydı (28–29). Dokümandaki sprint sırasına uymak için buraya taşındı. Aşağıdaki adım numaraları 5 kaydı.
+
+### F. Kullanıcı paneli
+18. **Dashboard (`/dashboard`):** `StatCard` bileşenleri. İlan sayısı (duruma göre), favori, sipariş ve okunmamış bildirim sayıları.
+19. **İlan ver (`/my-listings/new`):**
     - Çok adımlı form: 1) temel bilgi, 2) fiyat ve konum, 3) fotoğraflar (`useFieldArray` ile URL listesi), 4) önizleme.
     - "Taslak kaydet" ilanı `draft` olarak, "Onaya gönder" `pending` olarak kaydeder.
-15. **İlanlarım (`/my-listings`):** Durum filtresi, `StatusBadge`, ret gerekçesi. Düzenle, sil (`ConfirmDialog` ile) ve arşivle işlemleri.
-16. **İlan düzenle (`/my-listings/:id/edit`):** Form `reset` ile mevcut değerlerle dolar. Sadece `draft` ve `rejected` ilanlar düzenlenebilir. Başkasının ilanı açılmaz.
-17. **Favoriler:** Mevcut sayfa store'a ve `UserLayout`'a uyarlanır.
-18. **Sipariş:**
+20. **İlanlarım (`/my-listings`):** Durum filtresi, `StatusBadge`, ret gerekçesi. Düzenle, sil (`ConfirmDialog` ile) ve arşivle işlemleri.
+21. **İlan düzenle (`/my-listings/:id/edit`):** Form `reset` ile mevcut değerlerle dolar. Sadece `draft` ve `rejected` ilanlar düzenlenebilir. Başkasının ilanı açılmaz. İlan sahibi kendi onaylanmamış ilanını önizleyebilir.
+22. **Favoriler:** Mevcut sayfa `UserLayout`'a taşınır.
+23. **Sipariş:**
     - Detay sayfasındaki "Sipariş ver" butonu çalışır. Misafir giriş sayfasına gider, kendi ilanında buton pasiftir.
     - `/orders` sayfası eklenir, sipariş iptal edilebilir.
-19. **Bildirimler (`/notifications`):** İlan onay ve ret bildirimleri, sipariş bildirimleri. Okundu işaretleme, Header'da sayı rozeti.
-20. **Profil (`/profile`):** Ad, e-posta, telefon ve şehir güncelleme. Ayrı bir formda şifre değiştirme: mevcut şifre, yeni şifre ve tekrarı. RHF + Zod, `useId`.
+24. **Bildirimler (`/notifications`):** İlan onay ve ret bildirimleri, sipariş bildirimleri. Okundu işaretleme, Header'da sayı rozeti.
+25. **Profil (`/profile`):** Ad, e-posta, telefon ve şehir güncelleme. Ayrı bir formda şifre değiştirme: mevcut şifre, yeni şifre ve tekrarı. RHF + Zod, `useId`.
 
-### F. Admin paneli
-21. **Admin dashboard (`/admin`):** KPI kartları ve bekleyen ilanlar listesi.
-22. **İlan moderasyonu (`/admin/listings`):**
+### G. Admin paneli
+26. **Admin dashboard (`/admin`):** KPI kartları ve bekleyen ilanlar listesi.
+27. **İlan moderasyonu (`/admin/listings`):**
     - Duruma göre filtre, Onayla ve Reddet. Ret gerekçesi en az 5 karakter.
     - Her işlem bildirim ve işlem geçmişi kaydı oluşturur.
-23. **Kullanıcılar (`/admin/users`):** Arama, rol ve durum filtresi, pasife alma ve aktif etme.
-24. **Siparişler (`/admin/orders`):** Onaylama ve iptal etme.
-25. **Raporlar (`/admin/reports`):** Recharts kurulumu. Kategoriye ve şehre göre ilan sayısı, durum dağılımı. `reduce` ve `useMemo` kullanılır.
-26. **İşlem geçmişi (`/admin/audit-log`):** Kim, ne zaman, ne yaptı. Filtre ve sıralama.
-27. **Ayarlar (`/admin/settings`):** Demo verisini seed'e sıfırlama (onaylı), verileri JSON olarak dışa aktarma.
-
-### G. Katalog ve detay
-28. **Katalog (`/listings`):**
-    - Arama, kategori, şehir ve fiyat aralığı filtresi. Sıralama (yeni, ucuz, pahalı) ve sayfalama.
-    - Filtreler `useSearchParams` ile adres çubuğunda tutulur. `useMemo` ve `useDeferredValue` kullanılır.
-    - Header'daki arama ve kategori kartları bu sayfaya bağlanır.
-29. **İlan detay:** Fotoğraf galerisi. İlan sahibi kendi onaylanmamış ilanını önizleyebilir.
+28. **Kullanıcılar (`/admin/users`):** Arama, rol ve durum filtresi, pasife alma ve aktif etme.
+29. **Siparişler (`/admin/orders`):** Onaylama ve iptal etme.
+30. **Raporlar (`/admin/reports`):** Recharts kurulumu. Kategoriye ve şehre göre ilan sayısı, durum dağılımı. `reduce` ve `useMemo` kullanılır.
+31. **İşlem geçmişi (`/admin/audit-log`):** Kim, ne zaman, ne yaptı. Filtre ve sıralama.
+32. **Ayarlar (`/admin/settings`):** Demo verisini seed'e sıfırlama (onaylı), verileri JSON olarak dışa aktarma.
 
 ### H. Kalite ve bitiriş
-30. **Kod bölme:** Admin sayfaları `React.lazy` + `Suspense` ile ayrı yüklenir.
-31. **Unit ve component testleri:** Vitest ve React Testing Library. Şemalar, reducer, `StatusBadge`, `ListingCard` ve formlar test edilir.
-32. **E2E testi:** Playwright ile ana akış: kullanıcı ilan verir, admin onaylar, ziyaretçi ilanı katalogda görür.
-33. **Son düzenlemeler:**
+33. **Kod bölme:** Admin sayfaları `React.lazy` + `Suspense` ile ayrı yüklenir.
+34. **Unit ve component testleri:** Vitest ve React Testing Library. Şemalar, reducer, `StatusBadge`, `ListingCard` ve formlar test edilir.
+35. **E2E testi:** Playwright ile ana akış: kullanıcı ilan verir, admin onaylar, ziyaretçi ilanı katalogda görür.
+36. **Son düzenlemeler:**
     - 404 ve 403 sayfalarının çevirisi.
     - Hakkımızda, Yardım, İletişim ve Güvenli alışveriş sayfaları.
     - `npm run build` hatasız çalışmalı, mobil görünüm kontrol edilmeli, README güncellenmeli.

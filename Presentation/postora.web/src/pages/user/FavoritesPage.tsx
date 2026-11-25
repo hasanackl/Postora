@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useAppData } from '../../hooks/useAppData'
 import { useFavorites } from '../../hooks/useFavorites'
 import { selectListingsByIds } from '../../store/selectors'
 import ListingCard from '../../components/listing/ListingCard'
+import EmptyState from '../../components/common/EmptyState'
+import { getButtonClass } from '../../constants/buttonStyles'
 
 function FavoritesPage() {
   const { t } = useTranslation()
@@ -25,17 +26,16 @@ function FavoritesPage() {
       </div>
 
       {listings.length === 0 ? (
-        <div className="py-16 flex flex-col items-center text-center gap-2 rounded-[18px] border border-dashed border-line bg-white">
-          <FontAwesomeIcon icon={faHeart} className="text-4xl text-primary mb-2" />
-          <p className="font-heading text-xl font-bold">{t('favorites.empty')}</p>
-          <p className="text-sm text-muted">{t('favorites.emptyText')}</p>
-          <Link
-            to="/"
-            className="mt-3 h-11 px-5 inline-flex items-center rounded-xl bg-primary text-page font-medium hover:bg-primary-dark"
-          >
-            {t('favorites.browse')}
-          </Link>
-        </div>
+        <EmptyState
+          icon={faHeart}
+          title={t('favorites.empty')}
+          text={t('favorites.emptyText')}
+          action={
+            <Link to="/" className={getButtonClass()}>
+              {t('favorites.browse')}
+            </Link>
+          }
+        />
       ) : (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
           {listings.map((listing) => (

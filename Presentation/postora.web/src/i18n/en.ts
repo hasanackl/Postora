@@ -107,4 +107,20 @@ export const en = {
     emptyText: 'Tap the heart on a listing to save it here.',
     browse: 'Browse listings',
   },
+  common: {
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+    backHome: 'Back to home',
+  },
+  status: {
+    draft: 'Draft',
+    pending: 'Pending review',
+    approved: 'Published',
+    rejected: 'Rejected',
+    archived: 'Archived',
+  },
+  notFound: {
+    title: 'Page not found',
+    text: 'The page you are looking for may have been moved, removed, or never existed.',
+  },
 }

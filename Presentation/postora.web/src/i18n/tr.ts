@@ -109,4 +109,20 @@ export const tr: typeof en = {
     emptyText: 'Beğendiğin ilanlardaki kalbe dokun, burada saklansın.',
     browse: 'İlanlara göz at',
   },
+  common: {
+    cancel: 'Vazgeç',
+    confirm: 'Onayla',
+    backHome: 'Ana sayfaya dön',
+  },
+  status: {
+    draft: 'Taslak',
+    pending: 'Onay bekliyor',
+    approved: 'Yayında',
+    rejected: 'Reddedildi',
+    archived: 'Arşivlendi',
+  },
+  notFound: {
+    title: 'Sayfa bulunamadı',
+    text: 'Aradığın sayfa taşınmış, kaldırılmış ya da hiç var olmamış olabilir.',
+  },
 }

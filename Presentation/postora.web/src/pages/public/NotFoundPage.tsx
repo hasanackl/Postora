@@ -1,16 +1,24 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { faSignsPost } from '@fortawesome/free-solid-svg-icons'
+import EmptyState from '../../components/common/EmptyState'
+import { getButtonClass } from '../../constants/buttonStyles'
 
 function NotFoundPage() {
+  const { t } = useTranslation()
+
   return (
-    <div className="max-w-[1240px] mx-auto px-4 sm:px-6 py-16 text-center">
-      <p className="font-heading text-6xl font-bold text-primary">404</p>
-      <p className="mt-3 text-muted">Aradığın sayfa bulunamadı.</p>
-      <Link
-        to="/"
-        className="inline-flex mt-6 h-11 px-5 items-center rounded-xl bg-primary text-white font-medium"
-      >
-        Ana sayfaya dön
-      </Link>
+    <div className="max-w-[1240px] mx-auto px-4 sm:px-6 py-12">
+      <EmptyState
+        icon={faSignsPost}
+        title={t('notFound.title')}
+        text={t('notFound.text')}
+        action={
+          <Link to="/" className={getButtonClass()}>
+            {t('common.backHome')}
+          </Link>
+        }
+      />
     </div>
   )
 }
